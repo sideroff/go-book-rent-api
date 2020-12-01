@@ -1,7 +1,8 @@
 package hub
 
 import (
-	"log"
+    "log"
+	"net/http"
 
 	"github.com/sideroff/go-book-rent-api/src/services"
 )
@@ -23,21 +24,26 @@ var AccessRight = &AccessRightList{
     Admin: 2,
 }
 
-serviceList := []*services.Service{services.Greet}
+
+// put any service u want made available here
+var serviceList = []services.Service{
+    services.Greet,
+    // services....
+}
+
+// a map of key: string, value: service
+// keys should be url regex
+var servicesMap = make(map[string]*services.Service)
 
 // Initialize - a function that starts up the hub and services
 func Initialize(l *log.Logger) {
-
-}
-
-// DoesServiceExist - checks if a service that expects this specific url exists
-func DoesServiceExist(url string) bool {
-
-	return false
+    
 }
 
 // ExecuteService - executes the service specified by url
 // TODO: should be a goroutine
-func ExecuteService(url string) {
-
+func ExecuteService(url string, rw http.ResponseWriter, r *http.Request) {
+    if services.Greet.URLPattern.MatchString(url) {
+        services.Greet.Execute(rw,r)
+    }
 }

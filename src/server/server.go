@@ -6,13 +6,18 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"time"
+
+	"github.com/sideroff/go-book-rent-api/src/hub"
 )
+
+var l *log.Logger
 
 // Start starts the server
 func Start() {
-	l := log.New(os.Stdout, string(os.Getpid())+" ", log.LstdFlags)
 	serveMux := http.NewServeMux()
+	l = log.New(os.Stdout, strconv.Itoa(os.Getpid()) + ": ", log.LstdFlags)
 
 	// since no specific routes are added
 	// and "/" is a prefix it matches everything
@@ -40,8 +45,9 @@ func Start() {
 }
 
 func handleRequest(responseWriter http.ResponseWriter, request *http.Request) {
+	l.Printf("received request %s %s ", request.Method, request.URL.Path)
 	// check hub if service exists by url match
-	// call hub.execute()
+	hub.ExecuteService(request.URL.Path, responseWriter, request)
 	// auth if service requires auth
 }
 
