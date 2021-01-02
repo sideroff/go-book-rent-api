@@ -1,14 +1,10 @@
 package config
 
-
-// Role - role in the app, admin > guest
-type Role int
-
-// Roles - Enum that specifies the acciss rights of the app
+// Roles - Enum that specifies the access rights of the app, admin > guest
 var Roles = struct{
-    Guest Role
-	User Role
-	Admin Role
+    Guest int
+	User int
+	Admin int
 }{
     Guest: 0,
 	User: 1,
@@ -25,7 +21,3 @@ type Config struct {
 		Port int
 	}
 }
-
-// func GetConfig() {
-// 	os.
-// }
